@@ -87,7 +87,7 @@ const Home = ({ user, logout }) => {
           convo.id = message.conversationId;
         }
       });
-      setConversations(conversations);
+      setConversations([...conversations]);
     },
     [setConversations, conversations]
   );
@@ -96,7 +96,6 @@ const Home = ({ user, logout }) => {
     (data) => {
       // if sender isn't null, that means the message needs to be put in a brand new convo
       const { message, sender = null } = data;
-      console.log(message.text)
       if (sender !== null) {
         const newConvo = {
           id: message.conversationId,
@@ -104,7 +103,8 @@ const Home = ({ user, logout }) => {
           messages: [message],
         };
         newConvo.latestMessageText = message.text;
-        setConversations((prev) => [newConvo, ...prev]);
+        conversations.push(newConvo);
+        //setConversations([ ...conversations]);
       }
 
       conversations.forEach((convo) => {
@@ -113,7 +113,8 @@ const Home = ({ user, logout }) => {
           convo.latestMessageText = message.text;
         }
       });
-      setConversations(conversations);
+      setConversations([...conversations]);
+      console.log("update");
     },
     [setConversations, conversations]
   );

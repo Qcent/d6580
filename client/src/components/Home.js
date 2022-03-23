@@ -114,7 +114,6 @@ const Home = ({ user, logout }) => {
         }
       });
       setConversations([...conversations]);
-      console.log("update");
     },
     [setConversations, conversations]
   );

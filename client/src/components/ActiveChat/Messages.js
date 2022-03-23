@@ -10,7 +10,7 @@ const Messages = (props) => {
       {messages.map((message) => {
         const time = moment(message.createdAt).format('h:mm');
 
-        if(message.senderId === otherUser.id){
+        if(!message.readState && message.senderId === otherUser.id){
           const reqBody={
             messageId: message.id,
             status: true,

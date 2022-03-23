@@ -26,9 +26,34 @@ const Home = ({ user, logout }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const markMessageRead = async (body) => {
+    const  data = await saveReadStatus(body);
+    if(data.conversationId){
+        updateConvoReadStatus(body);
+    }
+  };
+
+  const saveReadStatus = async (body) => {
     const { data } = await axios.put('/api/messages', body);
     return data;
   };
+
+  const updateConvoReadStatus = useCallback(
+    (data) => {
+      const { conversationId, messageId, status } = data;
+      conversations.forEach((convo) => {
+        if (convo.id === conversationId) {
+          convo.messages.forEach(message =>{
+            if (message.id === messageId){
+              message.readState = status;
+            }
+          });
+        }
+      });
+      setConversations([...conversations]);
+    },
+    [setConversations, conversations]
+  );
+
 
   const addSearchedUsers = (users) => {
     const currentUsers = {};
@@ -119,7 +144,6 @@ const Home = ({ user, logout }) => {
         }
       });
       setConversations([...conversations]);
-      console.log(conversations);
     },
     [setConversations, conversations]
   );

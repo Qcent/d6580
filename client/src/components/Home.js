@@ -114,6 +114,7 @@ const Home = ({ user, logout }) => {
         }
       });
       setConversations([...conversations]);
+      console.log(conversations);
     },
     [setConversations, conversations]
   );

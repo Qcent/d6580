@@ -25,6 +25,11 @@ const Home = ({ user, logout }) => {
   const classes = useStyles();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const markMessageRead = async (body) => {
+    const { data } = await axios.put('/api/messages', body);
+    return data;
+  };
+
   const addSearchedUsers = (users) => {
     const currentUsers = {};
 
@@ -218,6 +223,7 @@ const Home = ({ user, logout }) => {
           conversations={conversations}
           user={user}
           postMessage={postMessage}
+          markMessageRead={markMessageRead}
         />
       </Grid>
     </>

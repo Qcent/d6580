@@ -8,20 +8,21 @@ const useStyles = makeStyles(() => ({
     marginTop: 23,
     marginLeft: 6,
     display: "flex",
-    alignItems: "center",
+    alignItems: "baseline",
   },
   chip: {
-    minWidth:"1.2rem",
+    minWidth:"1rem",
     padding: "0 .2rem",
     textAlign:"center",
-    backgroundImage: 'linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)',
-    borderRadius: '10px 10px 10px 10px',
-
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    letterSpacing: -0.2,
-    
+    backgroundColor: "#3F92FF",
+    borderRadius: "10px",
+    fontFamily: "Open Sans",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "10px",
+    lineHeight: "14px",
+    letterSpacing: "-0.5px",
+    color: "#FFFFFF",
   }
 }));
 

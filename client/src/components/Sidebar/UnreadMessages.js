@@ -28,10 +28,13 @@ const useStyles = makeStyles(() => ({
 const UnreadMessages = ({ count }) => {
   const classes = useStyles();
 
-  return (
+  return  count ? (
     <Box className={classes.root}>
         <div className={classes.chip}>{count}</div>
     </Box>
+  ) :
+  (
+      <></>
   );
 };
 

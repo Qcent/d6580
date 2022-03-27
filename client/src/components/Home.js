@@ -25,6 +25,37 @@ const Home = ({ user, logout }) => {
   const classes = useStyles();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const markMessageRead = async (body) => {
+    const data = await saveReadStatus(body);
+    if (data.conversationId) {
+      updateConvoReadStatus(body);
+    }
+  };
+
+  const saveReadStatus = async (body) => {
+    const { data } = await axios.put('/api/messages', body);
+    return data;
+  };
+
+  const updateConvoReadStatus = useCallback((data) => {
+    setConversations((prev) => {
+      const { conversationId, messageId, status } = data;
+      return prev.map((convo) => {
+        if (convo.id === conversationId) {
+          const convoCopy = { ...convo };
+          convoCopy.messages.forEach((message) => {
+            if (message.id === messageId) {
+              message.readState = status;
+            }
+          });
+          return convoCopy;
+        } else {
+          return convo;
+        }
+      });
+    });
+  }, []);
+
   const addSearchedUsers = (users) => {
     const currentUsers = {};
 
@@ -220,6 +251,7 @@ const Home = ({ user, logout }) => {
           conversations={conversations}
           user={user}
           postMessage={postMessage}
+          markMessageRead={markMessageRead}
         />
       </Grid>
     </>

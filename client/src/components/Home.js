@@ -218,7 +218,18 @@ const Home = ({ user, logout }) => {
     const fetchConversations = async () => {
       try {
         const { data } = await axios.get('/api/conversations');
-        setConversations(data);
+        setConversations(
+          data.map((convo) => {
+            convo.myUnreadMessageCount = convo.messages.filter(
+              (message) => !message.readState && message.senderId != user.id
+            ).length;
+            convo.otherUser.unreadMessageCount = convo.messages.filter(
+              (message) =>
+                !message.readState && message.senderId != convo.otherUser.id
+            ).length;
+            return convo;
+          })
+        );
       } catch (error) {
         console.error(error);
       }

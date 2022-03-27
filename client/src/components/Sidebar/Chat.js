@@ -34,7 +34,7 @@ const Chat = ({ conversation, setActiveChat }) => {
         sidebar={true}
       />
       <ChatContent conversation={conversation} />
-      <UnreadMessages count={conversation.messages.filter(message=>!message.readState && message.senderId === otherUser.id).length} />
+      <UnreadMessages count={conversation.myUnreadMessageCount} />
     </Box>
   );
 };

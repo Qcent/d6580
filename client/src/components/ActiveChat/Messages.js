@@ -4,18 +4,19 @@ import { SenderBubble, OtherUserBubble } from '.';
 import moment from 'moment';
 
 const Messages = (props) => {
-  const { messages, otherUser, userId, markMessageRead, conversationId } = props;
+  const { messages, otherUser, userId, markMessageRead, conversationId } =
+    props;
   return (
     <Box>
       {messages.map((message) => {
         const time = moment(message.createdAt).format('h:mm');
 
-        if(!message.readState && message.senderId === otherUser.id){
-          const reqBody={
+        if (!message.isRead && message.senderId === otherUser.id) {
+          const reqBody = {
             messageId: message.id,
             status: true,
-            conversationId: conversationId
-          }
+            conversationId: conversationId,
+          };
           markMessageRead(reqBody);
         }
 

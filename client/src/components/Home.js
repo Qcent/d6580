@@ -45,7 +45,7 @@ const Home = ({ user, logout }) => {
           const convoCopy = { ...convo };
           convoCopy.messages.forEach((message) => {
             if (message.id === messageId) {
-              message.readState = status;
+              message.isRead = status;
             }
           });
           return convoCopy;
@@ -221,11 +221,11 @@ const Home = ({ user, logout }) => {
         setConversations(
           data.map((convo) => {
             convo.myUnreadMessageCount = convo.messages.filter(
-              (message) => !message.readState && message.senderId != user.id
+              (message) => !message.isRead && message.senderId != user.id
             ).length;
             convo.otherUser.unreadMessageCount = convo.messages.filter(
               (message) =>
-                !message.readState && message.senderId != convo.otherUser.id
+                !message.isRead && message.senderId != convo.otherUser.id
             ).length;
             return convo;
           })

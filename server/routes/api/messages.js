@@ -56,7 +56,7 @@ router.put("/", async (req, res, next) => {
     // check to see if the user participates in the conversation
     const auth = await Conversation.userParticipates(conversationId, userId);
     if (!auth) {
-      return res.sendStatus(401);
+      return res.sendStatus(403);
     }
 
     // if conversationId and messageId have been provided find the message by it's id

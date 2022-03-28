@@ -157,34 +157,38 @@ const Home = ({ user, logout }) => {
     );
   }, []);
 
-  const addMessageToConversation = useCallback((data) => {
-    setConversations((prev) => {
-      // if sender isn't null, that means the message needs to be put in a brand new convo
-      const { message, sender = null } = data;
-      if (sender !== null) {
-        const newConvo = {
-          id: message.conversationId,
-          otherUser: { ...sender, unreadMessageCount: 0 },
-          messages: [message],
-          latestMessageText: message.text,
-          myUnreadMessageCount: 1,
-        };
-        return [...prev, newConvo];
-      } else {
-        return prev.map((convo) => {
-          if (convo.id === message.conversationId) {
-            const convoCopy = { ...convo };
-            convoCopy.messages.push(message);
-            convoCopy.latestMessageText = message.text;
-            if (message.senderId !== user.id) convoCopy.myUnreadMessageCount++;
-            return convoCopy;
-          } else {
-            return convo;
-          }
-        });
-      }
-    });
-  }, []);
+  const addMessageToConversation = useCallback(
+    (data) => {
+      setConversations((prev) => {
+        // if sender isn't null, that means the message needs to be put in a brand new convo
+        const { message, sender = null } = data;
+        if (sender !== null) {
+          const newConvo = {
+            id: message.conversationId,
+            otherUser: { ...sender, unreadMessageCount: 0 },
+            messages: [message],
+            latestMessageText: message.text,
+            myUnreadMessageCount: 1,
+          };
+          return [...prev, newConvo];
+        } else {
+          return prev.map((convo) => {
+            if (convo.id === message.conversationId) {
+              const convoCopy = { ...convo };
+              convoCopy.messages.push(message);
+              convoCopy.latestMessageText = message.text;
+              if (message.senderId !== user.id)
+                convoCopy.myUnreadMessageCount++;
+              return convoCopy;
+            } else {
+              return convo;
+            }
+          });
+        }
+      });
+    },
+    [user.id]
+  );
 
   const setActiveChat = (username) => {
     setActiveConversation(username);

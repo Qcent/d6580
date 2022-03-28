@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     marginLeft: 20,
     flexGrow: 1,
+    maxWidth: '75%',
   },
   username: {
     fontWeight: 'bold',
@@ -21,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   boldText: {
     fontWeight: 'bold',
     letterSpacing: -0.2,
+  },
+  blackText: {
     color: 'black',
   },
 }));
@@ -42,8 +45,13 @@ const ChatContent = ({ conversation }) => {
         </Typography>
         <Typography
           className={`${classes.previewText} ${
-            latestMessageRead ? '' : `${classes.boldText}`
-          }`}
+            latestMessageRead
+              ? ''
+              : `${classes.boldText} ${
+                  otherUser.online ? `${classes.blackText}` : ''
+                }`
+          }
+          `}
         >
           {latestMessageText}
         </Typography>

@@ -26,13 +26,16 @@ const Home = ({ user, logout }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const markMessagesRead = async (convoList) => {
-    if (!convoList) return;
+    try {
+      if (!convoList) return;
+      const data = await saveReadStatus(convoList);
 
-    const data = await saveReadStatus(convoList);
-
-    if (data.length) {
-      updateLocalReadStatus(convoList);
-      broadcastMessagesRead(convoList);
+      if (data.length) {
+        updateLocalReadStatus(convoList);
+        broadcastMessagesRead(convoList);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 

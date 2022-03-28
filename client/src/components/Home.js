@@ -152,7 +152,6 @@ const Home = ({ user, logout }) => {
           convoCopy.latestMessageText = message.text;
           convoCopy.id = message.conversationId;
           convoCopy.myUnreadMessageCount = 0;
-          //convoCopy.otherUser.unreadMessageCount = 1;
           return convoCopy;
         } else {
           return convo;

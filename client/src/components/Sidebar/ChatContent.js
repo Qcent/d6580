@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: -0.2,
   },
   previewText: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#9CADC8',
     letterSpacing: -0.17,
   },

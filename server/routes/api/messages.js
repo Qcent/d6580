@@ -13,7 +13,12 @@ router.post("/", async (req, res, next) => {
 
     // if we already know conversation id, we can save time and just add it to message and return
     if (conversationId) {
-      const message = await Message.create({ senderId, text, conversationId });
+      const message = await Message.create({
+        senderId,
+        text,
+        conversationId,
+        isRead: false,
+      });
       return res.json({ message, sender });
     }
     // if we don't have conversation id, find a conversation to make sure it doesn't already exist
@@ -51,27 +56,36 @@ router.put("/", async (req, res, next) => {
       return res.sendStatus(401);
     }
     const userId = req.user.id;
-    const { messageId, status = false, conversationId } = req.body;
+    let response = [];
 
-    // check to see if the user participates in the conversation
-    const auth = await Conversation.userParticipates(conversationId, userId);
-    if (!auth) {
-      return res.sendStatus(403);
-    }
-
-    // if conversationId and messageId have been provided find the message by it's id
-    if (conversationId && messageId) {
-      const message = await Message.findOne({ where: { id: messageId } });
-      // if the message is found and it's associated conversation matches the conversationId update the isRead
-      if (message && message.conversationId === conversationId) {
-        const data = await message.update({ isRead: status });
-        return res.json(data);
+    for (const convoId in req.body) {
+      // check to see if the user participates in the conversation
+      const auth = await Conversation.userParticipates(convoId, userId);
+      if (!auth) {
+        return res.sendStatus(403);
       }
-      // message not found or not in provided conversation, return error 'Not Found'
-      return res.sendStatus(404);
+      //update every message in the conversation that was read
+      for (const msgId in req.body[convoId]) {
+        const { messageId, isRead, conversationId } = req.body[convoId][msgId];
+        // if conversationId and messageId have been provided find the message by it's id
+        if (conversationId && messageId) {
+          const message = await Message.findOne({ where: { id: messageId } });
+          // if the message is found and it's associated conversation matches the conversationId update the isRead
+          if (message && message.conversationId === conversationId) {
+            const data = await message.update({ isRead: isRead });
+            //return res.json(data);
+            response.push(data);
+          } else {
+            // message not found or not in provided conversation, return error 'Not Found'
+            return res.sendStatus(404);
+          }
+        } else {
+          // if we don't have conversation id or message id, return error 'Bad Request'
+          return res.sendStatus(400);
+        }
+      }
     }
-    // if we don't have conversation id or message id, return error 'Bad Request'
-    return res.sendStatus(400);
+    return res.json(response);
   } catch (error) {
     next(error);
   }

@@ -36,6 +36,13 @@ const Sidebar = ({
         .filter((conversation) =>
           conversation.otherUser.username.includes(searchTerm)
         )
+        // .sort((a, b) => (a.otherUser.online < b.otherUser.online ? 1 : -1))
+        .sort((a, b) =>
+          a.messages[a.messages.length - 1].createdAt <
+          b.messages[b.messages.length - 1].createdAt
+            ? 1
+            : -1
+        )
         .map((conversation) => {
           return (
             <Chat

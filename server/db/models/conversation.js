@@ -30,7 +30,7 @@ Conversation.userParticipates = async function (conversationId, userId) {
     }
   });
 
-  return conversation ? true : false;
+  return !!conversation;
 };
 
 module.exports = Conversation;

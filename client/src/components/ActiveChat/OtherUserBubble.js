@@ -7,8 +7,8 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
   },
   avatar: {
-    height: 30,
-    width: 30,
+    height: 36,
+    width: 36,
     marginRight: 11,
     marginTop: 6,
   },

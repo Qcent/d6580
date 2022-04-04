@@ -18,6 +18,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const sortMessages = (a, b) => {
+  return a.messages.length
+    ? b.messages.length
+      ? a.messages[a.messages.length - 1].createdAt <
+        b.messages[b.messages.length - 1].createdAt
+        ? 1
+        : -1
+      : 1
+    : -1;
+};
+
 const Sidebar = ({
   handleChange,
   searchTerm,
@@ -36,6 +47,7 @@ const Sidebar = ({
         .filter((conversation) =>
           conversation.otherUser.username.includes(searchTerm)
         )
+        .sort((a, b) => sortMessages(a, b))
         .map((conversation) => {
           return (
             <Chat

@@ -1,3 +1,4 @@
+export { default as UnreadMessages } from "./UnreadMessages";
 export { default as ChatContent } from "./ChatContent";
 export { default as CurrentUser } from "./CurrentUser";
 export { default as Search } from "./Search";
